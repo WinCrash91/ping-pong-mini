@@ -20,6 +20,38 @@ window.addEventListener('keydown', (e) => {
 });
 window.addEventListener('keyup', (e) => keys[e.key.toLowerCase()] = false);
 
+// Touch / pointer controls (drag on left half)
+let dragging = false;
+canvas.addEventListener('pointerdown', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  if (x <= W * 0.6) { // left side control
+    dragging = true;
+    movePaddleTo(y);
+  }
+  canvas.setPointerCapture(e.pointerId);
+  if (waitingServe) serve();
+});
+canvas.addEventListener('pointermove', (e) => {
+  if (!dragging) return;
+  const rect = canvas.getBoundingClientRect();
+  const y = e.clientY - rect.top;
+  movePaddleTo(y);
+});
+canvas.addEventListener('pointerup', (e) => {
+  dragging = false;
+  canvas.releasePointerCapture(e.pointerId);
+});
+canvas.addEventListener('pointercancel', (e) => {
+  dragging = false;
+});
+
+function movePaddleTo(y) {
+  paddle.y = y - paddle.h / 2;
+  paddle.y = Math.max(0, Math.min(H - paddle.h, paddle.y));
+}
+
 function serve() {
   if (!waitingServe) return;
   waitingServe = false;
