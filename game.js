@@ -22,30 +22,62 @@ window.addEventListener('keyup', (e) => keys[e.key.toLowerCase()] = false);
 
 // Touch / pointer controls (drag on left half)
 let dragging = false;
+
+// iOS Safari prefers touch events; also prevent scroll
+canvas.style.touchAction = 'none';
+
+function handleStart(x, y, pointerId) {
+  if (x <= W * 0.6) {
+    dragging = true;
+    movePaddleTo(y);
+  }
+  if (waitingServe) serve();
+}
+function handleMove(y) {
+  if (!dragging) return;
+  movePaddleTo(y);
+}
+function handleEnd() {
+  dragging = false;
+}
+
 canvas.addEventListener('pointerdown', (e) => {
   const rect = canvas.getBoundingClientRect();
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
-  if (x <= W * 0.6) { // left side control
-    dragging = true;
-    movePaddleTo(y);
-  }
-  canvas.setPointerCapture(e.pointerId);
-  if (waitingServe) serve();
+  if (canvas.setPointerCapture) canvas.setPointerCapture(e.pointerId);
+  handleStart(x, y, e.pointerId);
+  e.preventDefault();
 });
 canvas.addEventListener('pointermove', (e) => {
-  if (!dragging) return;
   const rect = canvas.getBoundingClientRect();
   const y = e.clientY - rect.top;
-  movePaddleTo(y);
+  handleMove(y);
+  e.preventDefault();
 });
 canvas.addEventListener('pointerup', (e) => {
-  dragging = false;
-  canvas.releasePointerCapture(e.pointerId);
+  handleEnd();
+  if (canvas.releasePointerCapture) canvas.releasePointerCapture(e.pointerId);
+  e.preventDefault();
 });
-canvas.addEventListener('pointercancel', (e) => {
-  dragging = false;
-});
+canvas.addEventListener('pointercancel', () => handleEnd());
+
+canvas.addEventListener('touchstart', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const t = e.touches[0];
+  const x = t.clientX - rect.left;
+  const y = t.clientY - rect.top;
+  handleStart(x, y);
+  e.preventDefault();
+}, { passive: false });
+canvas.addEventListener('touchmove', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const t = e.touches[0];
+  const y = t.clientY - rect.top;
+  handleMove(y);
+  e.preventDefault();
+}, { passive: false });
+canvas.addEventListener('touchend', (e) => { handleEnd(); e.preventDefault(); }, { passive: false });
 
 function movePaddleTo(y) {
   paddle.y = y - paddle.h / 2;
