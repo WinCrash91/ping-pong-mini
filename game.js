@@ -4,6 +4,8 @@ const ctx = canvas.getContext('2d');
 const W = canvas.width;
 const H = canvas.height;
 
+const VERSION = '1.0.2';
+
 const paddle = { x: 20, y: H/2 - 40, w: 12, h: 80, speed: 6 };
 const cpu = { x: W-32, y: H/2 - 40, w: 12, h: 80, speed: 5 };
 const ball = { x: W/2, y: H/2, r: 8, vx: 0, vy: 0, speed: 6 };
@@ -166,6 +168,11 @@ function draw() {
   ctx.font = '20px Arial';
   ctx.fillText(playerScore, W/2 - 40, 30);
   ctx.fillText(cpuScore, W/2 + 25, 30);
+
+  // version
+  ctx.font = '12px Arial';
+  ctx.fillStyle = '#666';
+  ctx.fillText('v' + VERSION, W - 44, H - 10);
 
   if (waitingServe) {
     ctx.font = '14px Arial';
