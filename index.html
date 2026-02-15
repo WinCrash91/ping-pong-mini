@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ping Pong Mini</title>
+  <style>
+    body { margin: 0; background: #0e0e0e; color: #fff; font-family: Arial, sans-serif; display: grid; place-items: center; height: 100vh; }
+    canvas { background: #111; border: 2px solid #444; }
+    .hud { margin-top: 10px; font-size: 14px; color: #bbb; text-align: center; }
+  </style>
+</head>
+<body>
+  <div>
+    <canvas id="game" width="700" height="420"></canvas>
+    <div class="hud">W/S = mover pala · Espacio = sacar · 1P vs CPU</div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>
