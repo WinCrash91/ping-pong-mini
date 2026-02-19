@@ -7,13 +7,22 @@
   <style>
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; padding: 2rem; }
     ul { line-height: 1.8; }
+    .date { color: #6b7280; margin-top: -0.25rem; }
   </style>
 </head>
 <body>
   <h1>Inutil</h1>
   <p>Juegos y aplicaciones</p>
+  <p class="date">Fecha: <span id="fecha"></span></p>
   <ul>
     <li><a href="./pingpong/index.html">Pingpong</a></li>
   </ul>
+  <script>
+    const f = new Date();
+    const dd = String(f.getDate()).padStart(2, '0');
+    const mm = String(f.getMonth() + 1).padStart(2, '0');
+    const yyyy = f.getFullYear();
+    document.getElementById('fecha').textContent = `${dd}/${mm}/${yyyy}`;
+  </script>
 </body>
 </html>
