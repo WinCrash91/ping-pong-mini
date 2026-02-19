@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PanelKit Calc</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <header class="hero">
+      <h1>PanelKit Calc</h1>
+      <p>Estimación rápida de paneles, remates y tornillería.</p>
+    </header>
+
+    <section class="card">
+      <h2>Datos de la cubierta</h2>
+      <form id="calc-form">
+        <div class="grid">
+          <label>
+            Largo (m)
+            <input type="number" step="0.01" min="0" id="largo" required />
+          </label>
+          <label>
+            Ancho (m)
+            <input type="number" step="0.01" min="0" id="ancho" required />
+          </label>
+          <label>
+            Ancho útil panel (m)
+            <input type="number" step="0.01" min="0" id="anchoUtil" value="1" required />
+          </label>
+          <label>
+            Largo panel estándar (m)
+            <input type="number" step="0.01" min="0" id="largoPanel" value="6" required />
+          </label>
+          <label>
+            Tornillos por panel
+            <input type="number" step="1" min="1" id="tornillos" value="12" required />
+          </label>
+          <label>
+            Merma (%)
+            <input type="number" step="0.1" min="0" id="merma" value="5" required />
+          </label>
+        </div>
+        <div class="actions">
+          <button type="submit">Calcular</button>
+          <button type="button" id="reset">Limpiar</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="results" aria-live="polite">
+      <div class="card">
+        <h3>Paneles</h3>
+        <p id="res-paneles">—</p>
+      </div>
+      <div class="card">
+        <h3>Remates (m)</h3>
+        <p id="res-remates">—</p>
+      </div>
+      <div class="card">
+        <h3>Tornillos</h3>
+        <p id="res-tornillos">—</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
